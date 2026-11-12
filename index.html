@@ -853,12 +853,14 @@
               </details>
               <p class="error" id="e-consent" aria-live="polite"></p>
             </div>
-            <button class="btn btn-cream" type="submit">Pre-order now</button>
+            <p class="error" id="e-submit" aria-live="polite"></p>
+            <button class="btn btn-cream" type="submit" id="preorder-submit">Pre-order now</button>
           </form>
 
           <div class="done" id="preorder-done" role="status" tabindex="-1" hidden>
             <p class="done-en">Thank you.</p>
             <p>Your pre-order request is complete. You'll be the first to hear when we launch.</p>
+            <button class="btn btn-cream" type="button" id="preorder-again">Pre-order again</button>
           </div>
         </div>
       </div>
@@ -1256,15 +1258,39 @@
     input.addEventListener('input', function () { if (input.hasAttribute('aria-invalid')) show(key); });
   });
 
-  // TODO: Firebase 연결 위치
-  // 지금은 입력값을 어디에도 저장·전송하지 않고 화면에 완료 메시지만 보여준다.
-  // 나중에 이 함수 안에서 data를 Firestore 등에 저장한 뒤 완료 메시지를 띄우면 된다.
+  var submitBtn = document.getElementById('preorder-submit');
+  var submitError = document.getElementById('e-submit');
+
   function handleSubmit(data) {
-    void data;
-    form.hidden = true;
-    done.hidden = false;
-    done.focus({ preventScroll: true });
+    if (typeof window.soiSavePreorder !== 'function') {
+      submitError.textContent = 'Something went wrong. Please try again in a moment.';
+      return;
+    }
+    submitBtn.disabled = true;
+    submitError.textContent = '';
+    window.soiSavePreorder(data).then(function () {
+      form.hidden = true;
+      done.hidden = false;
+      done.focus({ preventScroll: true });
+    }).catch(function (err) {
+      console.error(err);
+      submitBtn.disabled = false;
+      submitError.textContent = 'Something went wrong. Please try again in a moment.';
+    });
   }
+
+  document.getElementById('preorder-again').addEventListener('click', function () {
+    form.reset();
+    Object.keys(fields).forEach(function (key) {
+      fields[key].error.textContent = '';
+      fields[key].input.removeAttribute('aria-invalid');
+    });
+    submitError.textContent = '';
+    submitBtn.disabled = false;
+    done.hidden = true;
+    form.hidden = false;
+    fields.name.input.focus({ preventScroll: true });
+  });
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -1283,6 +1309,54 @@
     });
   });
 })();
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-analytics.js";
+  import {
+    getFirestore, collection, addDoc, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyD8vk35shAcOCZx3Sptn9XESPwWeSV54Hs",
+    authDomain: "soi-pre-oder.firebaseapp.com",
+    projectId: "soi-pre-oder",
+    storageBucket: "soi-pre-oder.firebasestorage.app",
+    messagingSenderId: "1065222313860",
+    appId: "1:1065222313860:web:77c6360b2435056d406fd1",
+    measurementId: "G-9RTT0XDWFX"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  getAnalytics(app);
+  const db = getFirestore(app);
+
+  // Apps Script Web App URL (see apps-script/Code.gs for the deploy steps).
+  // Leave blank to skip the Google Sheets sync.
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwwTOOT145_G4JtWDHmJLB-Ngiv-tQ44MEIEfp_FUM3yghZLQf0ofghS7PL2iHw687D/exec";
+
+  function syncToSheet(data) {
+    if (!APPS_SCRIPT_URL) return;
+    fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify(data)
+    }).catch(function (err) { console.error("Sheet sync failed:", err); });
+  }
+
+  window.soiSavePreorder = function (data) {
+    return addDoc(collection(db, "preorders"), {
+      name: data.name,
+      email: data.email,
+      scents: data.scents,
+      consent: data.consent,
+      createdAt: serverTimestamp()
+    }).then(function (ref) {
+      syncToSheet(data);
+      return ref;
+    });
+  };
 </script>
 </body>
 </html>
