@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>soi — Soy candles for winter evenings | Pre-order</title>
+<meta name="description" content="Three soi soy candles, poured by hand and left to set slowly. Pre-orders are open ahead of the December release.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="soi — Soy candles for winter evenings | Pre-order">
+<meta property="og:description" content="Three soi soy candles, poured by hand and left to set slowly. Pre-orders are open ahead of the December release.">
+<meta property="og:image" content="images/hero.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%232A1D15'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='Georgia, serif' font-size='44' fill='%23F4EDE3'%3Es%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="images/hero.webp" type="image/webp">
+<style>
+  :root {
+    --cream: #F4EDE3;
+    --oat: #E8DCCB;
+    --taupe: #A89380;
+    --taupe-text: #6B5848; /* taupe를 글자용으로 어둡게 (대비 4.5:1 이상) */
+    --espresso: #2A1D15;
+    --dark: #1A0F09;
+    --darkest: #140908;
+    --glow: #E8C49A;
+    --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    --sans: "Jost", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --nav-h: 68px;
+    --gutter: 56px;
+    --edge-w: 56px;
+    --vh: 100vh;
+    --pad: clamp(20px, 4vh, 56px);   /* 패널 위아래 여백 */
+    --pager-h: 0px;                 /* 아래쪽 넘김 버튼 자리 */
+  }
+  @supports (height: 100dvh) { :root { --vh: 100dvh; } }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; overflow: hidden; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--cream);
+    color: var(--espresso);
+    font-family: var(--sans);
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-wrap: break-word;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { display: block; max-width: 100%; height: auto; }
+  a { color: inherit; }
+  h1, h2, h3, p, ul, ol, dl, dd, figure, blockquote { margin: 0; padding: 0; }
+  h1, h2, h3 { text-wrap: balance; }
+  h2 em { white-space: nowrap; }
+  ul, ol { list-style: none; }
+  em { font-family: var(--serif); font-style: italic; font-weight: 300; }
+
+  :focus-visible { outline: 2px solid var(--espresso); outline-offset: 3px; }
+  .on-dark :focus-visible, body[data-theme="dark"] .site-header :focus-visible, body[data-theme="dark"] .edge:focus-visible { outline-color: var(--glow); }
+
+  .skip {
+    position: absolute; left: 16px; top: -60px; z-index: 200;
+    background: var(--espresso); color: var(--cream);
+    padding: 10px 16px; border-radius: 4px; text-decoration: none; font-size: 15px;
+  }
+  .skip:focus { top: 12px; }
+
+  /* ---------- 가로로 넘기는 트랙 ---------- */
+  .track {
+    display: flex;
+    width: 100%; height: var(--vh);
+    overflow-x: auto; overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+  }
+  .track::-webkit-scrollbar { display: none; }
+  main { display: contents; }
+  .panel {
+    position: relative;
+    flex: 0 0 100%; width: 100%; height: 100%;
+    padding-top: var(--nav-h);
+    scroll-snap-align: start; scroll-snap-stop: always;
+    overflow: hidden;
+    background: var(--cream);
+  }
+  /* 내용이 화면보다 길면 패널 안에서만 세로로 스크롤 */
+  .panel-scroll {
+    height: 100%;
+    display: flex; flex-direction: column;
+    overflow-x: hidden; overflow-y: auto;
+    overscroll-behavior-y: contain;
+    scrollbar-width: thin; scrollbar-color: rgba(168, 147, 128, 0.6) transparent;
+  }
+  .container {
+    position: relative; z-index: 2;
+    width: 100%; max-width: calc(1200px + var(--gutter) * 2);
+    margin: auto; /* 세로 가운데, 넘치면 위에서부터 */
+    padding: var(--pad) var(--gutter) calc(var(--pad) + var(--pager-h));
+  }
+  .bg-oat { background: var(--oat); }
+  .bg-dark { background: var(--dark); color: var(--cream); }
+
+  .label {
+    font-family: var(--serif);
+    font-size: 15px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--taupe-text);
+    margin-bottom: 16px;
+  }
+  .on-dark .label { color: var(--glow); }
+
+  .h2 { font-family: var(--serif); font-weight: 300; line-height: 1.12; font-size: clamp(36px, 4.4vw, 56px); }
+  .lede { margin-top: 14px; color: var(--taupe-text); }
+  .on-dark .lede { color: #CBB9A6; }
+  .section-head { margin-bottom: clamp(24px, 4.5vh, 48px); max-width: 640px; }
+  .section-head.center { text-align: center; margin-left: auto; margin-right: auto; }
+  .footnote { font-size: 14px; color: var(--taupe-text); }
+
+  /* buttons */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 50px; padding: 12px 28px;
+    font-family: var(--sans); font-size: 15px; font-weight: 400; letter-spacing: 0.02em; line-height: 1.2;
+    text-decoration: none; text-align: center;
+    border: 1px solid var(--espresso); border-radius: 4px;
+    cursor: pointer;
+    transition: background-color .25s ease, color .25s ease, border-color .25s ease;
+  }
+  .btn-solid { background: var(--espresso); color: var(--cream); }
+  .btn-solid:hover { background: #40301F; border-color: #40301F; }
+  .btn-line { background: transparent; color: var(--espresso); }
+  .btn-line:hover { background: var(--espresso); color: var(--cream); }
+  .btn-sm { min-height: 40px; padding: 8px 18px; font-size: 14px; }
+  .btn-cream { background: var(--cream); color: var(--espresso); border-color: var(--cream); }
+  .btn-cream:hover { background: var(--glow); border-color: var(--glow); }
+
+  /* header / nav : 패널 위에 투명하게 떠 있고, 어두운 패널에서는 글자색만 바뀐다 */
+  .site-header {
+    position: fixed; inset: 0 0 auto 0; z-index: 100;
+    height: var(--nav-h);
+    color: var(--espresso);
+    transition: color .4s ease, background-color .3s ease;
+  }
+  body[data-theme="dark"] .site-header { color: var(--cream); }
+  .nav-inner {
+    height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    width: 100%; max-width: calc(1200px + var(--gutter) * 2); margin: 0 auto; padding: 0 var(--gutter);
+  }
+  .logo {
+    font-family: var(--serif); font-size: 34px; font-weight: 400; letter-spacing: 0.14em; line-height: 1;
+    text-decoration: none; padding: 6px 0;
+  }
+  .nav-menu { display: flex; align-items: center; gap: 36px; }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: 0.04em;
+    text-decoration: none; padding: 8px 0;
+    border-bottom: 1px solid transparent;
+    transition: border-color .25s ease;
+  }
+  .nav-links a:hover, .nav-links a[aria-current="true"] { border-bottom-color: currentColor; }
+  .site-header .btn-line { color: inherit; border-color: currentColor; }
+  .site-header .btn-line:hover { background: var(--espresso); border-color: var(--espresso); color: var(--cream); }
+  body[data-theme="dark"] .site-header .btn-line:hover { background: var(--cream); border-color: var(--cream); color: var(--espresso); }
+  .nav-toggle {
+    display: none;
+    width: 44px; height: 44px; padding: 0; margin-right: -10px;
+    background: none; border: 0; border-radius: 4px; cursor: pointer; color: inherit;
+  }
+  .nav-toggle span { display: block; width: 22px; height: 1px; margin: 6px auto; background: currentColor; transition: transform .25s ease, opacity .25s ease; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* edge arrows : hover the left / right edge of the screen, click to turn the page */
+  .edge {
+    position: fixed; z-index: 80; top: var(--nav-h); bottom: 0; width: var(--edge-w);
+    display: grid; place-content: center;
+    padding: 0; border: 0; background: none; cursor: pointer;
+    color: var(--espresso); opacity: 0;
+    transition: opacity .35s ease, color .4s ease;
+  }
+  .edge.prev { left: 0; }
+  .edge.next { right: 0; }
+  .edge[hidden] { display: none; }
+  .edge:hover, .edge:focus-visible { opacity: 0.5; }
+  body[data-theme="dark"] .edge { color: var(--cream); }
+  .edge::before {
+    content: ""; width: 22px; height: 22px;
+    border-top: 1px solid currentColor; border-right: 1px solid currentColor;
+    transform: translateX(-6px) rotate(45deg);
+  }
+  .edge.prev::before { transform: translateX(6px) rotate(-135deg); }
+  @media (hover: none), (max-width: 860px) { .edge { display: none; } }
+  .progress { position: fixed; z-index: 90; left: 0; right: 0; bottom: 0; height: 2px; background: rgba(168, 147, 128, 0.3); }
+  .progress span { display: block; height: 100%; width: 100%; background: var(--taupe); transform-origin: left center; transform: scaleX(0.125); transition: transform .5s ease; }
+
+  /* 1 hero */
+  .hero { padding-top: 0; background: #C9A780; }
+  .hero-img { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; object-position: right center; }
+  .hero .container { max-width: none; padding-top: calc(var(--nav-h) + var(--pad)); padding-left: max(var(--gutter), 6vw); padding-right: var(--gutter); }
+  .hero-text { max-width: min(450px, 100%); }
+  .hero .label { color: var(--espresso); font-size: 14px; }
+  .hero h1 { font-family: var(--serif); font-weight: 300; font-size: clamp(46px, 4.6vw, 64px); line-height: 1.05; letter-spacing: -0.01em; }
+  .hero h1 em { display: block; font-size: 1.35em; line-height: 1; margin-top: 2px; }
+  .hero-sub { margin-top: 28px; max-width: 380px; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
+
+  /* 2 story */
+  .story-grid { display: grid; grid-template-columns: 5fr 6fr; gap: clamp(40px, 7vw, 104px); align-items: center; }
+  .story-img img { width: 100%; aspect-ratio: 4 / 5; max-height: calc(var(--vh) - var(--nav-h) - var(--pad) * 2 - var(--pager-h)); object-fit: cover; }
+  .story-text p.body { margin-top: 24px; max-width: 520px; }
+  .features { margin-top: clamp(24px, 4vh, 40px); border-top: 1px solid var(--taupe); max-width: 520px; }
+  .features li {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
+    padding: 14px 0; border-bottom: 1px solid var(--taupe);
+    font-size: 16px;
+  }
+  .features .num { font-family: var(--serif); font-style: italic; font-size: 18px; color: var(--taupe-text); }
+
+  /* 3 collection */
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .card { display: flex; flex-direction: column; background: var(--cream); }
+  .card img { width: 100%; aspect-ratio: 4 / 5; max-height: 31vh; object-fit: cover; object-position: 60% 62%; }
+  .card-body { display: flex; flex-direction: column; flex: 1; padding: 20px 24px 24px; }
+  .card h3 { font-family: var(--serif); font-size: 30px; font-weight: 400; line-height: 1.15; }
+  .card-desc { margin-top: 6px; font-size: 16px; line-height: 1.5; }
+  .card-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--taupe); }
+  .card-meta { font-size: 15px; color: var(--taupe-text); }
+  .card-meta strong { font-weight: 500; color: var(--espresso); }
+  .card-spacer { flex: 1; }
+  .collection-note { margin-top: clamp(16px, 3vh, 32px); text-align: center; }
+
+  /* 4 ingredients */
+  .scents { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .scent { text-align: center; }
+  .scent img {
+    width: min(100%, 42vh); margin: 0 auto; aspect-ratio: 1 / 1; object-fit: cover;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent), linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent), linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+    mask-composite: intersect;
+  }
+  .scent h3 { font-family: var(--serif); font-size: 28px; font-weight: 400; margin-top: 4px; }
+  .scent p { margin-top: 4px; font-size: 16px; color: #CBB9A6; }
+
+  /* 5 data */
+  .data-grid { display: grid; grid-template-columns: 4fr 7fr; gap: clamp(40px, 7vw, 104px); align-items: center; }
+  .data-insight { margin-top: 16px; font-family: var(--serif); font-size: 22px; line-height: 1.4; max-width: 380px; }
+  .chart-title { font-size: 15px; font-weight: 400; color: var(--taupe-text); margin-bottom: 14px; }
+  .bars li { display: grid; grid-template-columns: 172px 1fr 52px; align-items: center; gap: 16px; padding: 11px 0; border-bottom: 1px solid rgba(168, 147, 128, 0.45); }
+  .bars li:first-child { border-top: 1px solid rgba(168, 147, 128, 0.45); }
+  .bar-name { font-size: 15px; }
+  .bar-track { height: 14px; }
+  .bar { display: block; height: 100%; width: var(--v); background: var(--taupe); transform-origin: left center; }
+  .bars .is-key .bar { background: var(--espresso); }
+  .bars .is-key .bar-name, .bars .is-key .bar-val { font-weight: 500; }
+  .bar-val { font-family: var(--serif); font-size: 22px; text-align: right; line-height: 1; }
+
+  /* 6 reviews */
+  .reviews { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .reviews-block { margin-top: clamp(20px, 4.5vh, 44px); padding-top: clamp(18px, 3.5vh, 32px); border-top: 1px solid var(--taupe); }
+  .h2-sm { font-size: clamp(26px, 2.6vw, 34px); margin-bottom: clamp(14px, 2.5vh, 22px); }
+  .review { display: flex; flex-direction: column; background: var(--cream); padding: 20px 22px; }
+  .stars { font-size: 13px; letter-spacing: 0.2em; line-height: 1; }
+  .stars .off { color: var(--taupe); }
+  .review blockquote { margin-top: 12px; font-family: var(--serif); font-style: italic; font-size: 20px; line-height: 1.3; flex: 1; }
+  .review figcaption { margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--taupe); font-size: 14px; color: var(--taupe-text); }
+  .review figcaption b { font-family: var(--serif); font-size: 17px; font-weight: 500; color: var(--espresso); letter-spacing: 0.04em; }
+
+  /* 7 gift + faq */
+  .gf-grid { display: grid; grid-template-columns: 4fr 7fr; gap: clamp(40px, 7vw, 104px); align-items: start; }
+  .gift p.body { margin-top: 24px; }
+  .gift .gift-points { margin-top: 28px; border-top: 1px solid var(--taupe); }
+  .gift .gift-points li { padding: 14px 0; border-bottom: 1px solid var(--taupe); font-size: 16px; }
+  .faq-list { margin-top: 28px; border-top: 1px solid var(--taupe); }
+  .faq-list details { border-bottom: 1px solid var(--taupe); }
+  .faq-list summary {
+    display: flex; justify-content: space-between; align-items: center; gap: 24px;
+    padding: 20px 4px; cursor: pointer; list-style: none;
+    font-size: 17px; font-weight: 400;
+  }
+  .faq-list summary::-webkit-details-marker { display: none; }
+  .faq-list summary::after {
+    content: ""; flex: none; width: 9px; height: 9px;
+    border-right: 1px solid var(--espresso); border-bottom: 1px solid var(--espresso);
+    transform: translateY(-3px) rotate(45deg); transition: transform .25s ease;
+  }
+  .faq-list details[open] summary::after { transform: translateY(2px) rotate(-135deg); }
+  .faq-list .answer { padding: 0 4px 20px; max-width: 560px; color: #4A3A2E; }
+
+  /* 8 preorder */
+  .preorder { padding-top: 0; background: var(--darkest); color: var(--cream); }
+  .preorder-img {
+    position: absolute; z-index: 0; left: 0; top: 50%; width: 100%; height: auto; transform: translateY(-50%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
+  }
+  .preorder::before {
+    content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: linear-gradient(to right, rgba(20, 9, 8, 0) 40%, rgba(20, 9, 8, 0.85) 56%, var(--darkest) 68%);
+  }
+  .preorder .panel-scroll { position: relative; z-index: 2; padding-top: var(--nav-h); }
+  .preorder .container { z-index: auto; }
+  .preorder-panel { width: min(100%, 480px); margin-left: auto; }
+  .preorder h2 { font-family: var(--serif); font-weight: 300; font-size: clamp(32px, 3.4vw, 46px); line-height: 1.12; }
+  .form { margin-top: clamp(16px, 3vh, 28px); }
+  .field { margin-bottom: clamp(12px, 2vh, 20px); }
+  .field label, .field legend { display: block; font-size: 14px; font-weight: 400; margin-bottom: 6px; padding: 0; }
+  .req { color: var(--glow); margin-left: 8px; font-size: 12px; letter-spacing: 0.04em; }
+  .opt { color: #CBB9A6; margin-left: 8px; font-size: 12px; letter-spacing: 0.04em; }
+  .field input[type="text"], .field input[type="email"] {
+    width: 100%; height: 46px; padding: 0 16px;
+    background: transparent; color: var(--cream);
+    border: 1px solid rgba(244, 237, 227, 0.55); border-radius: 4px;
+    font: inherit; font-size: 16px;
+    transition: border-color .2s ease;
+  }
+  .field input::placeholder { color: rgba(244, 237, 227, 0.5); }
+  .field input[type="text"]:focus, .field input[type="email"]:focus { outline: none; border-color: var(--glow); box-shadow: 0 0 0 1px var(--glow); }
+  .field input[aria-invalid="true"] { border-color: #F0A58C; }
+  fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+  .checks { display: flex; flex-wrap: wrap; gap: 10px; }
+  .check { position: relative; display: inline-flex; }
+  .check input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+  .check span {
+    display: inline-flex; align-items: center; min-height: 40px; padding: 6px 16px;
+    font-family: var(--serif); font-size: 18px; line-height: 1.2;
+    border: 1px solid rgba(244, 237, 227, 0.55); border-radius: 4px;
+    transition: border-color .2s ease, color .2s ease;
+  }
+  .check input:checked + span { border-color: var(--glow); color: var(--glow); box-shadow: inset 0 0 0 1px var(--glow); }
+  .check input:focus-visible + span { outline: 2px solid var(--glow); outline-offset: 3px; }
+  .consent { display: flex; align-items: flex-start; gap: 12px; }
+  .consent input {
+    appearance: none; -webkit-appearance: none; flex: none;
+    width: 22px; height: 22px; margin: 3px 0 0;
+    border: 1px solid rgba(244, 237, 227, 0.7); border-radius: 3px; background: transparent; cursor: pointer;
+    display: grid; place-content: center;
+  }
+  .consent input::after { content: ""; width: 10px; height: 5px; border-left: 1.5px solid var(--darkest); border-bottom: 1.5px solid var(--darkest); transform: translateY(-1px) rotate(-45deg); opacity: 0; }
+  .consent input:checked { background: var(--glow); border-color: var(--glow); }
+  .consent input:checked::after { opacity: 1; }
+  .consent input[aria-invalid="true"] { border-color: #F0A58C; }
+  .consent label { margin: 0; font-size: 15px; line-height: 1.5; cursor: pointer; }
+  .privacy { margin-top: 6px; margin-left: 34px; font-size: 14px; }
+  .privacy summary { display: inline-block; cursor: pointer; color: var(--cream); border-bottom: 1px solid var(--glow); padding-bottom: 1px; list-style: none; }
+  .privacy summary::-webkit-details-marker { display: none; }
+  .privacy dl { margin-top: 12px; padding: 14px 18px; border: 1px solid rgba(244, 237, 227, 0.25); border-radius: 4px; display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; color: #DDCFBE; }
+  .privacy dt { color: #CBB9A6; white-space: nowrap; }
+  .error { margin-top: 6px; font-size: 14px; line-height: 1.4; color: #F5B9A3; }
+  .error:empty { margin-top: 0; }
+  .form .btn { width: 100%; margin-top: 2px; min-height: 50px; font-size: 16px; }
+  .done { margin-top: 32px; padding: 40px 32px; border: 1px solid rgba(244, 237, 227, 0.4); border-radius: 4px; }
+  .done:focus { outline: none; }
+  .done .done-en { font-family: var(--serif); font-style: italic; font-size: 30px; color: var(--glow); line-height: 1.2; }
+  .done p + p { margin-top: 12px; font-size: 17px; }
+
+  /* 9 footer (마지막 패널) */
+  .site-footer { background: var(--espresso); color: var(--cream); font-size: 14px; }
+  .footer-inner { text-align: center; }
+  .site-footer .logo { font-size: clamp(72px, 11vw, 148px); font-weight: 300; display: inline-block; padding: 0; margin-right: -0.14em; }
+  .footer-tagline { font-family: var(--serif); font-style: italic; font-size: clamp(22px, 2.4vw, 30px); margin-top: 12px; color: #DDCFBE; }
+  .footer-cta { margin-top: clamp(24px, 5vh, 44px); }
+  .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 28px; margin-top: clamp(28px, 6vh, 56px); }
+  .footer-links a { text-decoration: none; border-bottom: 1px solid var(--glow); padding-bottom: 2px; }
+  .biz { margin-top: 28px; padding-top: 24px; border-top: 1px solid rgba(244, 237, 227, 0.2); color: #CBB9A6; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 24px; }
+  .copyright { margin-top: 18px; color: #CBB9A6; font-family: var(--serif); font-size: 16px; letter-spacing: 0.04em; }
+
+  /* reveal */
+  .js .reveal { opacity: 0; transform: translateY(16px); transition: opacity .9s ease, transform .9s ease; }
+  .js .reveal.is-visible { opacity: 1; transform: none; }
+  .js .bars .bar { transform: scaleX(0); transition: transform 1.1s ease .2s; }
+  .js .bars.is-visible .bar { transform: none; }
+
+  /* 화면이 세로로 길 때: 히어로를 사진 위 / 글 아래로 나눈다 */
+  @media (max-width: 860px) {
+    .hero { padding-top: var(--nav-h); background: var(--cream); }
+    .hero-img { position: static; height: 46vh; object-position: 82% center; flex: none; }
+    .hero .container { margin: 0 auto; max-width: calc(1200px + var(--gutter) * 2); padding-top: clamp(24px, 4vh, 44px); padding-left: var(--gutter); }
+    .hero-text { max-width: 620px; }
+    .hero-sub { margin-top: 16px; max-width: 460px; }
+    .hero-actions { margin-top: 24px; }
+  }
+
+  /* 화면이 16:9보다 세로로 길 때(일반 노트북·모니터): 사진을 가로 폭에 맞춰 아래에 깔고,
+     위쪽 빈 곳은 사진 윗부분과 같은 리넨 색으로 이어서 글이 항상 사진 왼쪽 빈 자리에 오게 한다 */
+  @media (min-width: 861px) and (max-aspect-ratio: 16/9) {
+    .hero { background: linear-gradient(to right, #CBA882, #BB9670 50%, #A7805C); }
+    .hero-img {
+      top: auto; bottom: 0; height: auto;
+      -webkit-mask-image: linear-gradient(to bottom, transparent, #000 18%);
+      mask-image: linear-gradient(to bottom, transparent, #000 18%);
+    }
+    .hero-text { max-width: min(450px, 36vw); }
+  }
+
+  /* tablet */
+  @media (max-width: 1024px) {
+    .cards { grid-template-columns: repeat(2, 1fr); }
+    .reviews { grid-template-columns: repeat(2, 1fr); }
+    .nav-menu { gap: 24px; }
+    .nav-links { gap: 22px; }
+  }
+
+  @media (max-width: 860px) {
+    .nav-toggle { display: block; }
+    .site-header.is-open { background: var(--cream); color: var(--espresso); }
+    .nav-menu {
+      position: absolute; top: var(--nav-h); left: 0; right: 0;
+      flex-direction: column; align-items: stretch; gap: 0;
+      background: var(--cream); color: var(--espresso);
+      border-bottom: 1px solid rgba(168, 147, 128, 0.5);
+      padding: 8px var(--gutter) 28px;
+      display: none;
+    }
+    .site-header.is-open .nav-menu { display: flex; }
+    .nav-links { flex-direction: column; gap: 0; }
+    .nav-links a { display: block; padding: 14px 0; font-size: 22px; border-bottom: 1px solid rgba(168, 147, 128, 0.35); }
+    .nav-menu .btn { margin-top: 24px; min-height: 48px; font-size: 15px; }
+    .site-header.is-open .btn-line:hover { background: var(--espresso); border-color: var(--espresso); color: var(--cream); }
+
+    :root { --gutter: 24px; }
+    .story-grid, .data-grid, .gf-grid { grid-template-columns: 1fr; gap: 36px; }
+    .story-img { max-width: 520px; }
+    .story-img img { max-height: 44vh; }
+    .scents { gap: 8px; }
+    .scent h3 { font-size: 22px; }
+    .scent p { font-size: 14px; }
+
+    .preorder::before { display: none; }
+    .preorder-img {
+      position: static; transform: none; flex: none; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: 12% center;
+      -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent);
+      mask-image: linear-gradient(to bottom, #000 62%, transparent);
+    }
+    .preorder .container { margin-top: 0; padding-top: 12px; }
+    .preorder-panel { margin: 0 auto; width: min(100%, 560px); }
+  }
+
+  /* mobile */
+  @media (max-width: 600px) {
+    :root { --gutter: 20px; }
+    body { font-size: 16px; }
+    .cards, .reviews { grid-template-columns: 1fr; }
+    .card img { max-height: none; aspect-ratio: 5 / 4; }
+    .scents { grid-template-columns: 1fr; gap: 28px; }
+    .scent { max-width: 320px; margin: 0 auto; }
+    .scent h3 { font-size: 28px; }
+    .scent p { font-size: 16px; }
+    .hero-img { height: 38vh; }
+    .hero-actions .btn { flex: 1 1 100%; }
+    .hero .label { font-size: 12px; letter-spacing: 0.12em; white-space: nowrap; }
+    .bars li { grid-template-columns: 1fr auto; gap: 8px 12px; padding: 14px 0; }
+    .bar-track { grid-column: 1 / -1; grid-row: 2; }
+    .biz { flex-direction: column; align-items: center; }
+    .done { padding: 32px 22px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+    .js .reveal { opacity: 1; transform: none; }
+    .js .bars .bar { transform: none; }
+  }
+</style>
+</head>
+<body data-theme="light">
+<script>document.documentElement.classList.add('js');</script>
+<a class="skip" href="#top">Skip to content</a>
+
+<header class="site-header" id="site-header">
+  <div class="nav-inner">
+    <a class="logo" href="#top" aria-label="soi home">soi</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav-menu" id="nav-menu" aria-label="Main">
+      <ul class="nav-links">
+        <li><a href="#story">Story</a></li>
+        <li><a href="#collection">Collection</a></li>
+        <li><a href="#ingredients">Ingredients</a></li>
+        <li><a href="#gift">Gift</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <a class="btn btn-line btn-sm" href="#preorder">Pre-order</a>
+    </nav>
+  </div>
+</header>
+
+<div class="track" id="track">
+<main id="main">
+
+  <!-- 1. Hero -->
+  <section class="panel hero" id="top" data-theme="light" aria-label="Introduction">
+    <div class="panel-scroll">
+      <img class="hero-img" src="images/hero.webp" width="1672" height="941" fetchpriority="high" decoding="async"
+           alt="Three soi soy candles on linen with cotton bolls and soy wax flakes">
+      <div class="container">
+        <div class="hero-text">
+          <p class="label">2026 Winter Collection <span aria-hidden="true">·</span> Pre-order</p>
+          <h1>Winter evenings, <em>slowly.</em></h1>
+          <p class="hero-sub">Three soy candles, poured by hand and left to set slowly. Meet them first, before the December release.</p>
+          <div class="hero-actions">
+            <a class="btn btn-solid" href="#preorder">Pre-order now</a>
+            <a class="btn btn-line" href="#collection">View the collection</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Story -->
+  <section class="panel" id="story" data-theme="light" aria-labelledby="story-title">
+    <div class="panel-scroll">
+      <div class="container story-grid">
+        <div class="story-img reveal">
+          <img src="images/package-gift.webp" width="1122" height="1402" loading="lazy" decoding="async"
+               alt="A candle in a gift box stamped with the soi logo">
+        </div>
+        <div class="story-text reveal">
+          <p class="label">Our Story</p>
+          <h2 class="h2" id="story-title">For one <em>quiet</em> hour</h2>
+          <p class="body">soi began with a single word: slowly. We pour by hand, a small batch at a time, using 100% soy wax and cotton wicks. From the moment you light it to the moment it goes out, we hope it becomes the quietest hour of your day.</p>
+          <ul class="features">
+            <li><span>100% soy wax</span><span class="num" aria-hidden="true">01</span></li>
+            <li><span>Cotton wick</span><span class="num" aria-hidden="true">02</span></li>
+            <li><span>Small batches, poured by hand</span><span class="num" aria-hidden="true">03</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Collection -->
+  <section class="panel bg-oat" id="collection" data-theme="light" aria-labelledby="collection-title">
+    <div class="panel-scroll">
+      <div class="container">
+        <div class="section-head center reveal">
+          <p class="label">Collection</p>
+          <h2 class="h2" id="collection-title">Three <em>quiet</em> scents</h2>
+        </div>
+        <ul class="cards">
+          <li class="card reveal">
+            <img src="images/product-winter-cotton.webp" width="1122" height="1402" loading="lazy" decoding="async"
+                 alt="Winter Cotton candle in an ivory stoneware vessel">
+            <div class="card-body">
+              <h3>Winter Cotton</h3>
+              <p class="card-desc">Soft and clean, like freshly dried cotton sheets.</p>
+              <div class="card-spacer"></div>
+              <div class="card-foot">
+                <p class="card-meta">200g · <strong>₩32,000</strong></p>
+                <a class="btn btn-line btn-sm" href="#preorder" data-scent="Winter Cotton" aria-label="Pre-order Winter Cotton">Pre-order</a>
+              </div>
+            </div>
+          </li>
+          <li class="card reveal">
+            <img src="images/product-cedar-snow.webp" width="1122" height="1402" loading="lazy" decoding="async"
+                 alt="Cedar &amp; Snow pillar candle">
+            <div class="card-body">
+              <h3>Cedar &amp; Snow</h3>
+              <p class="card-desc">A forest after snowfall, cool and clear.</p>
+              <div class="card-spacer"></div>
+              <div class="card-foot">
+                <p class="card-meta">280g · <strong>₩36,000</strong></p>
+                <a class="btn btn-line btn-sm" href="#preorder" data-scent="Cedar &amp; Snow" aria-label="Pre-order Cedar &amp; Snow">Pre-order</a>
+              </div>
+            </div>
+          </li>
+          <li class="card reveal">
+            <img src="images/product-oat-milk.webp" width="1122" height="1402" loading="lazy" decoding="async"
+                 alt="Oat &amp; Milk candle in a taupe stoneware vessel">
+            <div class="card-body">
+              <h3>Oat &amp; Milk</h3>
+              <p class="card-desc">Smooth and nutty, like warm oat milk.</p>
+              <div class="card-spacer"></div>
+              <div class="card-foot">
+                <p class="card-meta">160g · <strong>₩28,000</strong></p>
+                <a class="btn btn-line btn-sm" href="#preorder" data-scent="Oat &amp; Milk" aria-label="Pre-order Oat &amp; Milk">Pre-order</a>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <p class="footnote collection-note">10% off every pre-order · Complimentary gift wrapping</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Ingredients -->
+  <section class="panel bg-dark on-dark" id="ingredients" data-theme="dark" aria-labelledby="ingredients-title">
+    <div class="panel-scroll">
+      <div class="container">
+        <div class="section-head center reveal">
+          <p class="label">Ingredients</p>
+          <h2 class="h2" id="ingredients-title">Every scent, <em>from nature.</em></h2>
+          <p class="lede">Each scent began with the ingredient it brings to mind.</p>
+        </div>
+        <ul class="scents">
+          <li class="scent reveal">
+            <img src="images/scent-winter-cotton.webp" width="1200" height="1200" loading="lazy" decoding="async" alt="Dried cotton bolls on a dark background">
+            <h3>Winter Cotton</h3>
+            <p>The softness of cotton</p>
+          </li>
+          <li class="scent reveal">
+            <img src="images/scent-cedar-snow.webp" width="1200" height="1200" loading="lazy" decoding="async" alt="Frosted slices of cedar wood">
+            <h3>Cedar &amp; Snow</h3>
+            <p>Cedar wood touched with frost</p>
+          </li>
+          <li class="scent reveal">
+            <img src="images/scent-oat-milk.webp" width="1200" height="1200" loading="lazy" decoding="async" alt="Oat stalks beside a cup of milk">
+            <h3>Oat &amp; Milk</h3>
+            <p>The warmth of oats and milk</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Why soy + Reviews -->
+  <section class="panel bg-oat" id="why" data-theme="light" aria-labelledby="why-title">
+    <div class="panel-scroll">
+      <div class="container">
+        <div class="data-grid">
+          <div class="reveal">
+            <p class="label">Why Soy</p>
+            <h2 class="h2" id="why-title">Why soy wax?</h2>
+            <p class="data-insight">After scent, people look at what a candle is made of. So soi chose the ingredients first.</p>
+          </div>
+          <figure class="reveal" aria-labelledby="chart-title">
+            <figcaption class="chart-title" id="chart-title">What matters most when choosing a candle</figcaption>
+            <ul class="bars reveal">
+              <li><span class="bar-name">Scent</span><span class="bar-track"><span class="bar" style="--v:42%"></span></span><span class="bar-val">42%</span></li>
+              <li class="is-key"><span class="bar-name">Ingredients (natural)</span><span class="bar-track"><span class="bar" style="--v:27%"></span></span><span class="bar-val">27%</span></li>
+              <li><span class="bar-name">Design</span><span class="bar-track"><span class="bar" style="--v:18%"></span></span><span class="bar-val">18%</span></li>
+              <li><span class="bar-name">Price</span><span class="bar-track"><span class="bar" style="--v:13%"></span></span><span class="bar-val">13%</span></li>
+            </ul>
+          </figure>
+        </div>
+        <div class="reviews-block" id="reviews">
+          <h2 class="h2 h2-sm reveal" id="reviews-title">From those who tried it <em>first</em></h2>
+          <div class="reviews">
+            <figure class="review reveal">
+              <p class="stars" role="img" aria-label="Rated 5 out of 5">★★★★★</p>
+              <blockquote>I light it after work and the whole day seems to settle.</blockquote>
+              <figcaption><b>J.H</b> · Instagram</figcaption>
+            </figure>
+            <figure class="review reveal">
+              <p class="stars" role="img" aria-label="Rated 5 out of 5">★★★★★</p>
+              <blockquote>The scent is never too much. Gentle even in a studio apartment.</blockquote>
+              <figcaption><b>S.Y</b> · Naver</figcaption>
+            </figure>
+            <figure class="review reveal">
+              <p class="stars" role="img" aria-label="Rated 4 out of 5">★★★★<span class="off">★</span></p>
+              <blockquote>I gave it as a gift and they loved it from the box onward.</blockquote>
+              <figcaption><b>M.K</b> · soi store</figcaption>
+            </figure>
+            <figure class="review reveal">
+              <p class="stars" role="img" aria-label="Rated 3 out of 5">★★★<span class="off">★★</span></p>
+              <blockquote>Lovely scent, but I wish Oat &amp; Milk were a little stronger.</blockquote>
+              <figcaption><b>D.W</b> · Community</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Gift + FAQ -->
+  <section class="panel" id="gift" data-theme="light" aria-label="Gift wrapping and frequently asked questions">
+    <div class="panel-scroll">
+      <div class="container gf-grid">
+        <div class="gift reveal">
+          <p class="label">Gift</p>
+          <h2 class="h2">A gift, <em>box and all</em></h2>
+          <p class="body">Every pre-order arrives in a soi gift box, with a message card at no extra cost.</p>
+          <ul class="gift-points">
+            <li>soi gift box included</li>
+            <li>Complimentary message card</li>
+          </ul>
+        </div>
+        <div class="faq reveal" id="faq">
+          <p class="label">FAQ</p>
+          <h2 class="h2">Good to know</h2>
+          <div class="faq-list">
+            <details>
+              <summary>How long does a candle burn?</summary>
+              <p class="answer">About 40 hours for the 200g size.</p>
+            </details>
+            <details>
+              <summary>Anything to keep in mind for the first burn?</summary>
+              <p class="answer">The first time, let it burn until the whole surface has melted, about two hours. It will burn evenly from then on.</p>
+            </details>
+            <details>
+              <summary>When will my pre-order arrive?</summary>
+              <p class="answer">We ship in order from the second week of December.</p>
+            </details>
+            <details>
+              <summary>Do you offer gift wrapping?</summary>
+              <p class="answer">It is included with every order.</p>
+            </details>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Pre-order form -->
+  <section class="panel preorder on-dark" id="preorder" data-theme="dark" aria-labelledby="preorder-title">
+    <div class="panel-scroll">
+      <img class="preorder-img" src="images/preorder-bg.webp" width="1672" height="941" loading="lazy" decoding="async"
+           alt="A single candle lit in the dark">
+      <div class="container">
+        <div class="preorder-panel">
+          <p class="label">Pre-order</p>
+          <h2 id="preorder-title">Reserve this winter's <em>first light</em></h2>
+          <p class="lede">Sign up before launch and yours ships first, at 10% off.</p>
+
+          <form class="form" id="preorder-form" novalidate>
+            <div class="field">
+              <label for="f-name">Name<span class="req">required</span></label>
+              <input type="text" id="f-name" name="name" autocomplete="name" required aria-describedby="e-name">
+              <p class="error" id="e-name" aria-live="polite"></p>
+            </div>
+            <div class="field">
+              <label for="f-email">Email<span class="req">required</span></label>
+              <input type="email" id="f-email" name="email" autocomplete="email" inputmode="email" placeholder="name@example.com" required aria-describedby="e-email">
+              <p class="error" id="e-email" aria-live="polite"></p>
+            </div>
+            <fieldset class="field">
+              <legend>Scents you're curious about<span class="opt">optional · choose any</span></legend>
+              <div class="checks">
+                <label class="check"><input type="checkbox" name="scents" value="Winter Cotton"><span>Winter Cotton</span></label>
+                <label class="check"><input type="checkbox" name="scents" value="Cedar &amp; Snow"><span>Cedar &amp; Snow</span></label>
+                <label class="check"><input type="checkbox" name="scents" value="Oat &amp; Milk"><span>Oat &amp; Milk</span></label>
+              </div>
+            </fieldset>
+            <div class="field">
+              <div class="consent">
+                <input type="checkbox" id="f-consent" name="consent" required aria-describedby="e-consent">
+                <label for="f-consent">I agree to the collection and use of my personal information<span class="req">required</span></label>
+              </div>
+              <details class="privacy">
+                <summary>View details</summary>
+                <dl>
+                  <dt>Collected</dt><dd>Name, email</dd>
+                  <dt>Purpose</dt><dd>Sending the launch announcement</dd>
+                  <dt>Retention</dt><dd>Deleted right after the launch announcement, or within 3 months</dd>
+                </dl>
+              </details>
+              <p class="error" id="e-consent" aria-live="polite"></p>
+            </div>
+            <button class="btn btn-cream" type="submit">Pre-order now</button>
+          </form>
+
+          <div class="done" id="preorder-done" role="status" tabindex="-1" hidden>
+            <p class="done-en">Thank you.</p>
+            <p>Your pre-order request is complete. You'll be the first to hear when we launch.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- 8. Footer (last panel) -->
+<footer class="panel site-footer on-dark" id="contact" data-theme="dark">
+  <div class="panel-scroll">
+    <div class="container footer-inner">
+      <a class="logo" href="#top" aria-label="soi, back to the first page">soi</a>
+      <p class="footer-tagline">Lit for quiet evenings.</p>
+      <p class="footer-cta"><a class="btn btn-cream" href="#preorder">Pre-order now</a></p>
+      <ul class="footer-links">
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms</a></li>
+        <li><a href="#">Instagram</a></li>
+      </ul>
+      <ul class="biz" aria-label="Business information">
+        <li>Company: soi</li>
+        <li>Representative: Gildong Hong</li>
+        <li>Business registration no.: 000-00-00000</li>
+        <li>Address: 00 Sample-ro, Seoul, Korea</li>
+        <li>Support: hello@soi.example</li>
+      </ul>
+      <p class="copyright">© 2026 soi. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+</div>
+
+<button class="edge prev" type="button" id="edge-prev" aria-label="Previous page" hidden></button>
+<button class="edge next" type="button" id="edge-next" aria-label="Next page"></button>
+<div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+
+<script>
+(function () {
+  'use strict';
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var header = document.getElementById('site-header');
+  var toggle = header.querySelector('.nav-toggle');
+  var menu = document.getElementById('nav-menu');
+  var track = document.getElementById('track');
+  var panels = Array.prototype.slice.call(track.querySelectorAll('.panel'));
+  var prevBtn = document.getElementById('edge-prev');
+  var nextBtn = document.getElementById('edge-next');
+  var bar = document.getElementById('progress-bar');
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-links a'));
+  var current = 0;
+
+  function clamp(i) { return Math.max(0, Math.min(panels.length - 1, i)); }
+  function panelIndexOf(el) { return el ? panels.indexOf(el.closest('.panel')) : -1; }
+
+  /* ---------- 가로 넘김 ---------- */
+  function render(i) {
+    document.body.dataset.theme = panels[i].dataset.theme || 'light';
+    prevBtn.hidden = i === 0;
+    nextBtn.hidden = i === panels.length - 1;
+    bar.style.transform = 'scaleX(' + (i + 1) / panels.length + ')';
+    navLinks.forEach(function (a) {
+      var on = panelIndexOf(document.querySelector(a.getAttribute('href'))) === i;
+      if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+    });
+  }
+
+  function go(i, instant) {
+    current = clamp(i);
+    track.scrollTo({ left: panels[current].offsetLeft, behavior: (instant || reduce) ? 'auto' : 'smooth' });
+    render(current);
+  }
+
+  var ticking = false;
+  track.addEventListener('scroll', function () {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      ticking = false;
+      var i = clamp(Math.round(track.scrollLeft / track.clientWidth));
+      if (i !== current) { current = i; render(i); }
+    });
+  }, { passive: true });
+
+  window.addEventListener('resize', function () { track.scrollLeft = panels[current].offsetLeft; });
+
+  prevBtn.addEventListener('click', function () { go(current - 1); });
+  nextBtn.addEventListener('click', function () { go(current + 1); });
+
+  // 마우스 휠: 패널 안에 세로로 더 볼 내용이 있으면 그쪽을 먼저 스크롤하고, 끝에 닿으면 옆 패널로 넘긴다.
+  var wheelLock = false, lastInner = 0;
+  track.addEventListener('wheel', function (e) {
+    if (e.ctrlKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; // 가로 제스처는 브라우저에 맡김
+    var sc = panels[current].querySelector('.panel-scroll');
+    var down = e.deltaY > 0;
+    var room = down ? sc.scrollTop + sc.clientHeight < sc.scrollHeight - 2 : sc.scrollTop > 0;
+    if (room) { lastInner = Date.now(); return; }
+    e.preventDefault();
+    if (wheelLock || Date.now() - lastInner < 250 || Math.abs(e.deltaY) < 4) return;
+    wheelLock = true;
+    setTimeout(function () { wheelLock = false; }, 750);
+    go(current + (down ? 1 : -1));
+  }, { passive: false });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.key === 'Escape' && header.classList.contains('is-open')) { setMenu(false); toggle.focus(); return; }
+    if (e.target.closest && e.target.closest('input, textarea, select')) return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); go(current + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(current - 1); }
+    else if (e.key === 'Home') { e.preventDefault(); go(0); }
+    else if (e.key === 'End') { e.preventDefault(); go(panels.length - 1); }
+  });
+
+  // 페이지 안 링크(#story 등)는 해당 패널로 넘긴다.
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest('a[href^="#"]');
+    if (!link) return;
+    var hash = link.getAttribute('href');
+    e.preventDefault();
+    if (hash === '#') return;
+    var target = document.querySelector(hash);
+    var i = panelIndexOf(target);
+    if (i < 0) return;
+    go(i);
+    var sc = panels[i].querySelector('.panel-scroll');
+    var top = target === panels[i] ? 0 : target.getBoundingClientRect().top - sc.getBoundingClientRect().top + sc.scrollTop - 16;
+    if (sc.scrollHeight > sc.clientHeight) sc.scrollTo({ top: Math.max(0, top), behavior: 'auto' });
+    history.replaceState(null, '', hash);
+    if (link.classList.contains('skip')) { panels[i].setAttribute('tabindex', '-1'); panels[i].focus({ preventScroll: true }); }
+  });
+
+  if (location.hash.length > 1) {
+    var start = panelIndexOf(document.querySelector(location.hash));
+    if (start > 0) go(start, true);
+  }
+  render(current);
+
+  /* ---------- 모바일 메뉴 ---------- */
+  function setMenu(open) {
+    header.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  }
+  toggle.addEventListener('click', function () { setMenu(toggle.getAttribute('aria-expanded') !== 'true'); });
+  menu.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
+
+  /* ---------- 패널이 들어올 때 부드럽게 나타나기 ---------- */
+  var reveals = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) {
+    reveals.forEach(function (el) { el.classList.add('is-visible'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); io.unobserve(entry.target); }
+      });
+    }, { threshold: 0.08 });
+    reveals.forEach(function (el) { io.observe(el); });
+  }
+
+  /* ---------- 컬렉션 카드 → 폼의 향 미리 선택 ---------- */
+  var form = document.getElementById('preorder-form');
+  document.querySelectorAll('[data-scent]').forEach(function (link) {
+    link.addEventListener('click', function () {
+      var box = Array.prototype.find.call(form.elements.scents, function (c) { return c.value === link.dataset.scent; });
+      if (box) box.checked = true;
+    });
+  });
+
+  /* ---------- 사전예약 폼 ---------- */
+  var done = document.getElementById('preorder-done');
+  var fields = {
+    name: { input: form.elements.name, error: document.getElementById('e-name') },
+    email: { input: form.elements.email, error: document.getElementById('e-email') },
+    consent: { input: form.elements.consent, error: document.getElementById('e-consent') }
+  };
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  function check(key) {
+    var input = fields[key].input;
+    if (key === 'name') return input.value.trim() ? '' : 'Please enter your name.';
+    if (key === 'email') {
+      var v = input.value.trim();
+      if (!v) return 'Please enter your email.';
+      return EMAIL_RE.test(v) ? '' : 'Please check the email format, e.g. name@example.com.';
+    }
+    return input.checked ? '' : 'Please agree to the collection and use of your personal information.';
+  }
+
+  function show(key) {
+    var message = check(key);
+    fields[key].error.textContent = message;
+    if (message) fields[key].input.setAttribute('aria-invalid', 'true');
+    else fields[key].input.removeAttribute('aria-invalid');
+    return !message;
+  }
+
+  Object.keys(fields).forEach(function (key) {
+    var input = fields[key].input;
+    input.addEventListener(input.type === 'checkbox' ? 'change' : 'blur', function () { show(key); });
+    input.addEventListener('input', function () { if (input.hasAttribute('aria-invalid')) show(key); });
+  });
+
+  // TODO: Firebase 연결 위치
+  // 지금은 입력값을 어디에도 저장·전송하지 않고 화면에 완료 메시지만 보여준다.
+  // 나중에 이 함수 안에서 data를 Firestore 등에 저장한 뒤 완료 메시지를 띄우면 된다.
+  function handleSubmit(data) {
+    void data;
+    form.hidden = true;
+    done.hidden = false;
+    done.focus({ preventScroll: true });
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var firstInvalid = null;
+    Object.keys(fields).forEach(function (key) {
+      if (!show(key) && !firstInvalid) firstInvalid = fields[key].input;
+    });
+    if (firstInvalid) { firstInvalid.focus(); return; }
+
+    handleSubmit({
+      name: fields.name.input.value.trim(),
+      email: fields.email.input.value.trim(),
+      scents: Array.prototype.filter.call(form.elements.scents, function (c) { return c.checked; })
+        .map(function (c) { return c.value; }),
+      consent: true
+    });
+  });
+})();
+</script>
+</body>
+</html>
