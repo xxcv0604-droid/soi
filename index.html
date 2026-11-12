@@ -987,7 +987,8 @@
      원본 사진 속 불꽃 좌표를 지금 화면에 보이는 사진 위 좌표로 바꿔서 빛을 놓는다. */
   function placeGlow(layer) {
     var img = document.querySelector('.' + layer.dataset.for);
-    var iw = img.naturalWidth || 1672, ih = img.naturalHeight || 941;
+    if (!img.complete || !img.naturalWidth) return; // 사진이 다 불러와진 뒤에만 빛을 켠다
+    var iw = img.naturalWidth, ih = img.naturalHeight;
     var r = img.getBoundingClientRect(), box = layer.getBoundingClientRect();
     if (!r.width || !r.height) return;
     var cs = getComputedStyle(img), s, ox = 0, oy = 0;
