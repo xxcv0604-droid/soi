@@ -208,6 +208,57 @@
   .hero-sub { margin-top: 28px; max-width: 380px; }
   .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
 
+  /* 1-1 hero motion ① 촛불 빛 일렁임 */
+  .hero .panel-scroll { position: relative; }
+  .glow { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; opacity: 0; transition: opacity 2s ease .6s; }
+  .glow.is-ready { opacity: 1; }
+  .glow-src { position: absolute; left: 0; top: 0; width: 0; height: 0; --s: 1; }
+  /* 주기가 서로 다른 세 겹의 빛이 각자 부드럽게(사인파처럼) 오르내려서,
+     합쳐지면 끊김 없이 불규칙하게 일렁인다 */
+  .glow-src i, .glow-src i::before, .glow-src i::after { border-radius: 50%; animation-play-state: paused; will-change: opacity, transform; }
+  .glow-src i {
+    position: absolute;
+    width: calc(300px * var(--s)); height: calc(300px * var(--s));
+    left: calc(-150px * var(--s)); top: calc(-150px * var(--s));
+    background: radial-gradient(circle, rgba(255, 204, 132, 0.5) 0%, rgba(255, 194, 118, 0.22) 30%, rgba(255, 186, 104, 0.06) 52%, rgba(255, 186, 104, 0) 70%);
+    mix-blend-mode: screen;
+    animation: glow-halo var(--d1, 3.7s) ease-in-out var(--o1, 0s) infinite alternate;
+  }
+  .glow-src i::before, .glow-src i::after { content: ""; position: absolute; }
+  .glow-src i::before {
+    inset: 22%;
+    background: radial-gradient(circle, rgba(255, 214, 150, 0.75) 0%, rgba(255, 200, 130, 0) 70%);
+    animation: glow-mid var(--d2, 2.3s) ease-in-out var(--o2, 0s) infinite alternate;
+  }
+  .glow-src i::after {
+    inset: 37%;
+    background: radial-gradient(circle, rgba(255, 228, 172, 0.8) 0%, rgba(255, 212, 150, 0) 70%);
+    animation: glow-core var(--d3, 1.45s) ease-in-out var(--o3, 0s) infinite alternate;
+  }
+  .glow-src:nth-child(2) { --d1: 4.3s; --d2: 2.7s; --d3: 1.7s; --o1: -1.2s; --o2: -0.6s; --o3: -0.9s; }
+  .glow-src:nth-child(3) { --d1: 3.2s; --d2: 2.05s; --d3: 1.3s; --o1: -2.1s; --o2: -1.4s; --o3: -0.3s; }
+  .glow-pre .glow-src { --d1: 4s; --d2: 2.5s; --d3: 1.6s; }
+  .panel.is-current .glow-src i,
+  .panel.is-current .glow-src i::before,
+  .panel.is-current .glow-src i::after { animation-play-state: running; }
+  .glow-pre { z-index: 0; } /* 폼 글자보다 아래에 깔리도록 */
+  @keyframes glow-halo { from { opacity: 0.72; } to { opacity: 0.96; } }
+  @keyframes glow-mid  { from { opacity: 0.45; transform: scale(0.97); } to { opacity: 0.9; transform: scale(1.03); } }
+  @keyframes glow-core { from { opacity: 0.35; transform: translateY(1%) scale(0.98); } to { opacity: 0.85; transform: translateY(-1%) scale(1.02); } }
+
+  /* 1-2 hero motion ③ 글자가 차례로 떠오르기. slowly. 만 유난히 천천히 */
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @keyframes rise-slow {
+    from { opacity: 0; transform: translateY(8px); filter: blur(6px); letter-spacing: 0.06em; }
+    to   { opacity: 1; transform: none; filter: blur(0); letter-spacing: 0; }
+  }
+  .h1-a { display: inline-block; }
+  .js .hero .label   { animation: rise 1.1s ease-out .2s both; }
+  .js .hero .h1-a    { animation: rise 1.1s ease-out .45s both; }
+  .js .hero h1 em    { animation: rise-slow 2.6s cubic-bezier(.22, .61, .36, 1) .95s both; }
+  .js .hero-sub      { animation: rise 1.1s ease-out 1.9s both; }
+  .js .hero-actions  { animation: rise 1.1s ease-out 2.2s both; }
+
   /* 2 story */
   .story-grid { display: grid; grid-template-columns: 5fr 6fr; gap: clamp(40px, 7vw, 104px); align-items: center; }
   .story-img img { width: 100%; aspect-ratio: 4 / 5; max-height: calc(var(--vh) - var(--nav-h) - var(--pad) * 2 - var(--pager-h)); object-fit: cover; }
@@ -223,7 +274,12 @@
   /* 3 collection */
   .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
   .card { display: flex; flex-direction: column; background: var(--cream); }
+  .card-media { overflow: hidden; }
   .card img { width: 100%; aspect-ratio: 4 / 5; max-height: 31vh; object-fit: cover; object-position: 60% 62%; }
+  .card img { transition: transform 1.4s cubic-bezier(.22, .61, .36, 1); }
+  @media (hover: hover) {
+    .card:hover img, .card:focus-within img { transform: scale(1.04); }
+  }
   .card-body { display: flex; flex-direction: column; flex: 1; padding: 20px 24px 24px; }
   .card h3 { font-family: var(--serif); font-size: 30px; font-weight: 400; line-height: 1.15; }
   .card-desc { margin-top: 6px; font-size: 16px; line-height: 1.5; }
@@ -257,7 +313,7 @@
   .bar { display: block; height: 100%; width: var(--v); background: var(--taupe); transform-origin: left center; }
   .bars .is-key .bar { background: var(--espresso); }
   .bars .is-key .bar-name, .bars .is-key .bar-val { font-weight: 500; }
-  .bar-val { font-family: var(--serif); font-size: 22px; text-align: right; line-height: 1; }
+  .bar-val { font-family: var(--serif); font-size: 22px; text-align: right; line-height: 1; font-variant-numeric: tabular-nums; }
 
   /* 6 reviews */
   .reviews { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
@@ -372,6 +428,12 @@
   /* reveal */
   .js .reveal { opacity: 0; transform: translateY(16px); transition: opacity .9s ease, transform .9s ease; }
   .js .reveal.is-visible { opacity: 1; transform: none; }
+  /* 원료 사진은 제목 다음에 왼쪽부터 한 장씩 */
+  .js .scent.reveal { transform: translateY(24px); transition-duration: 1.2s; }
+  .js .scent.reveal.is-visible { transform: none; }
+  .js .scent:nth-child(1) { transition-delay: .35s; }
+  .js .scent:nth-child(2) { transition-delay: .75s; }
+  .js .scent:nth-child(3) { transition-delay: 1.15s; }
   .js .bars .bar { transform: scaleX(0); transition: transform 1.1s ease .2s; }
   .js .bars.is-visible .bar { transform: none; }
 
@@ -497,10 +559,16 @@
     <div class="panel-scroll">
       <img class="hero-img" src="images/hero.webp" width="1672" height="941" fetchpriority="high" decoding="async"
            alt="Three soi soy candles on linen with cotton bolls and soy wax flakes">
+      <!-- 촛불 빛 번짐. data-x/y = 원본 사진(1672×941)에서 잰 불꽃 가운데 좌표 -->
+      <div class="glow" data-for="hero-img" aria-hidden="true">
+        <span class="glow-src" data-x="1135" data-y="122"><i></i></span>
+        <span class="glow-src" data-x="1427" data-y="258"><i></i></span>
+        <span class="glow-src" data-x="1174" data-y="514"><i></i></span>
+      </div>
       <div class="container">
         <div class="hero-text">
           <p class="label">2026 Winter Collection <span aria-hidden="true">·</span> Pre-order</p>
-          <h1>Winter evenings, <em>slowly.</em></h1>
+          <h1><span class="h1-a">Winter evenings,</span> <em>slowly.</em></h1>
           <p class="hero-sub">Three soy candles, poured by hand and left to set slowly. Meet them first, before the December release.</p>
           <div class="hero-actions">
             <a class="btn btn-solid" href="#preorder">Pre-order now</a>
@@ -543,8 +611,8 @@
         </div>
         <ul class="cards">
           <li class="card reveal">
-            <img src="images/product-winter-cotton.webp" width="1122" height="1402" loading="lazy" decoding="async"
-                 alt="Winter Cotton candle in an ivory stoneware vessel">
+            <div class="card-media"><img src="images/product-winter-cotton.webp" width="1122" height="1402" loading="lazy" decoding="async"
+                 alt="Winter Cotton candle in an ivory stoneware vessel"></div>
             <div class="card-body">
               <h3>Winter Cotton</h3>
               <p class="card-desc">Soft and clean, like freshly dried cotton sheets.</p>
@@ -556,8 +624,8 @@
             </div>
           </li>
           <li class="card reveal">
-            <img src="images/product-cedar-snow.webp" width="1122" height="1402" loading="lazy" decoding="async"
-                 alt="Cedar &amp; Snow pillar candle">
+            <div class="card-media"><img src="images/product-cedar-snow.webp" width="1122" height="1402" loading="lazy" decoding="async"
+                 alt="Cedar &amp; Snow pillar candle"></div>
             <div class="card-body">
               <h3>Cedar &amp; Snow</h3>
               <p class="card-desc">A forest after snowfall, cool and clear.</p>
@@ -569,8 +637,8 @@
             </div>
           </li>
           <li class="card reveal">
-            <img src="images/product-oat-milk.webp" width="1122" height="1402" loading="lazy" decoding="async"
-                 alt="Oat &amp; Milk candle in a taupe stoneware vessel">
+            <div class="card-media"><img src="images/product-oat-milk.webp" width="1122" height="1402" loading="lazy" decoding="async"
+                 alt="Oat &amp; Milk candle in a taupe stoneware vessel"></div>
             <div class="card-body">
               <h3>Oat &amp; Milk</h3>
               <p class="card-desc">Smooth and nutty, like warm oat milk.</p>
@@ -629,11 +697,11 @@
           </div>
           <figure class="reveal" aria-labelledby="chart-title">
             <figcaption class="chart-title" id="chart-title">What matters most when choosing a candle</figcaption>
-            <ul class="bars reveal">
-              <li><span class="bar-name">Scent</span><span class="bar-track"><span class="bar" style="--v:42%"></span></span><span class="bar-val">42%</span></li>
-              <li class="is-key"><span class="bar-name">Ingredients (natural)</span><span class="bar-track"><span class="bar" style="--v:27%"></span></span><span class="bar-val">27%</span></li>
-              <li><span class="bar-name">Design</span><span class="bar-track"><span class="bar" style="--v:18%"></span></span><span class="bar-val">18%</span></li>
-              <li><span class="bar-name">Price</span><span class="bar-track"><span class="bar" style="--v:13%"></span></span><span class="bar-val">13%</span></li>
+            <ul class="bars">
+              <li><span class="bar-name">Scent</span><span class="bar-track"><span class="bar" style="--v:42%"></span></span><span class="bar-val" data-v="42">42%</span></li>
+              <li class="is-key"><span class="bar-name">Ingredients (natural)</span><span class="bar-track"><span class="bar" style="--v:27%"></span></span><span class="bar-val" data-v="27">27%</span></li>
+              <li><span class="bar-name">Design</span><span class="bar-track"><span class="bar" style="--v:18%"></span></span><span class="bar-val" data-v="18">18%</span></li>
+              <li><span class="bar-name">Price</span><span class="bar-track"><span class="bar" style="--v:13%"></span></span><span class="bar-val" data-v="13">13%</span></li>
             </ul>
           </figure>
         </div>
@@ -710,6 +778,9 @@
     <div class="panel-scroll">
       <img class="preorder-img" src="images/preorder-bg.webp" width="1672" height="941" loading="lazy" decoding="async"
            alt="A single candle lit in the dark">
+      <div class="glow glow-pre" data-for="preorder-img" aria-hidden="true">
+        <span class="glow-src" data-x="416" data-y="272"><i></i></span>
+      </div>
       <div class="container">
         <div class="preorder-panel">
           <p class="label">Pre-order</p>
@@ -815,6 +886,9 @@
   /* ---------- 가로 넘김 ---------- */
   function render(i) {
     document.body.dataset.theme = panels[i].dataset.theme || 'light';
+    panels.forEach(function (p, k) { p.classList.toggle('is-current', k === i); }); // 보이는 장의 불빛만 움직인다
+    // 그래프는 그 장에 도착했을 때 한 번만 차오른다 (지나가는 도중에는 시작하지 않음)
+
     prevBtn.hidden = i === 0;
     nextBtn.hidden = i === panels.length - 1;
     bar.style.transform = 'scaleX(' + (i + 1) / panels.length + ')';
@@ -829,6 +903,19 @@
     track.scrollTo({ left: panels[current].offsetLeft, behavior: (instant || reduce) ? 'auto' : 'smooth' });
     render(current);
   }
+
+  // 넘김이 멈춘 장에서만 내용이 떠오르고 그래프가 차오른다 (여러 장을 건너뛸 때 지나가는 장은 그대로)
+  function arrive() {
+    var i = clamp(Math.round(track.scrollLeft / track.clientWidth));
+    panels[i].querySelectorAll('.reveal:not(.is-visible)').forEach(function (el) { el.classList.add('is-visible'); });
+    var bars = panels[i].querySelector('.bars:not(.is-visible)');
+    if (bars) { bars.classList.add('is-visible'); if (!reduce) countUp(bars); }
+  }
+  var settleTimer;
+  track.addEventListener('scroll', function () {
+    clearTimeout(settleTimer);
+    settleTimer = setTimeout(arrive, 140);
+  }, { passive: true });
 
   var ticking = false;
   track.addEventListener('scroll', function () {
@@ -895,6 +982,40 @@
   }
   render(current);
 
+  /* ---------- 촛불 빛 위치 맞추기 ----------
+     사진은 화면 비율에 따라 잘리거나(cover) 폭에 맞춰지므로,
+     원본 사진 속 불꽃 좌표를 지금 화면에 보이는 사진 위 좌표로 바꿔서 빛을 놓는다. */
+  function placeGlow(layer) {
+    var img = document.querySelector('.' + layer.dataset.for);
+    var iw = img.naturalWidth || 1672, ih = img.naturalHeight || 941;
+    var r = img.getBoundingClientRect(), box = layer.getBoundingClientRect();
+    if (!r.width || !r.height) return;
+    var cs = getComputedStyle(img), s, ox = 0, oy = 0;
+    if (cs.objectFit === 'cover') {
+      s = Math.max(r.width / iw, r.height / ih);
+      var pos = cs.objectPosition.split(' ').map(function (v) { return parseFloat(v) / 100; });
+      ox = (r.width - iw * s) * (isNaN(pos[0]) ? 0.5 : pos[0]);
+      oy = (r.height - ih * s) * (isNaN(pos[1]) ? 0.5 : pos[1]);
+    } else {
+      s = r.width / iw;
+    }
+    layer.querySelectorAll('.glow-src').forEach(function (src) {
+      var x = r.left - box.left + ox + src.dataset.x * s;
+      var y = r.top - box.top + oy + src.dataset.y * s;
+      src.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px)';
+      src.style.setProperty('--s', s.toFixed(3));
+    });
+    layer.classList.add('is-ready');
+  }
+  document.querySelectorAll('.glow').forEach(function (layer) {
+    var img = document.querySelector('.' + layer.dataset.for);
+    var update = function () { placeGlow(layer); };
+    img.loading = 'eager'; // 위치를 계산하려면 사진 크기가 필요하다
+    if (img.complete) update(); else img.addEventListener('load', update);
+    window.addEventListener('resize', update);
+    if ('ResizeObserver' in window) new ResizeObserver(update).observe(img);
+  });
+
   /* ---------- 모바일 메뉴 ---------- */
   function setMenu(open) {
     header.classList.toggle('is-open', open);
@@ -904,17 +1025,24 @@
   toggle.addEventListener('click', function () { setMenu(toggle.getAttribute('aria-expanded') !== 'true'); });
   menu.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
 
-  /* ---------- 패널이 들어올 때 부드럽게 나타나기 ---------- */
-  var reveals = document.querySelectorAll('.reveal');
-  if (reduce || !('IntersectionObserver' in window)) {
-    reveals.forEach(function (el) { el.classList.add('is-visible'); });
-  } else {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); io.unobserve(entry.target); }
-      });
-    }, { threshold: 0.08 });
-    reveals.forEach(function (el) { io.observe(el); });
+  /* 움직임 줄이기 설정이면 처음부터 모두 보이게 (나머지는 장에 도착할 때 render()에서 나타남) */
+  if (reduce) document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('is-visible'); });
+  setTimeout(arrive, 0); // 주소에 #ingredients 처럼 장이 지정돼 열린 경우
+
+  /* 막대가 차오르는 동안 숫자도 0%에서 올라가게 (막대 transition: 1.1s, 0.2s 지연과 맞춤) */
+  function countUp(list) {
+    list.querySelectorAll('.bar-val').forEach(function (el) {
+      var end = +el.dataset.v, t0 = performance.now() + 200, dur = 1100;
+      el.textContent = '0%';
+      (function tick(now) {
+        var k = Math.min(1, Math.max(0, (now - t0) / dur));
+        var eased = 1 - Math.pow(1 - k, 3);
+        el.textContent = Math.round(end * eased) + '%';
+        if (k < 1) requestAnimationFrame(tick);
+      })(performance.now());
+      // 탭이 가려져 애니메이션이 멈춰도 최종 숫자는 반드시 보이게
+      setTimeout(function () { el.textContent = end + '%'; }, 200 + dur + 100);
+    });
   }
 
   /* ---------- 컬렉션 카드 → 폼의 향 미리 선택 ---------- */
